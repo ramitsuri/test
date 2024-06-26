@@ -1,0 +1,19 @@
+name: Firebase app distribution
+
+on:
+  workflow_dispatch:
+    inputs:
+      gitCommit:
+        description: 'Git commit to distribute'
+        required: true
+
+
+jobs:
+  print_log:
+    name: Print log for commit
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Print log
+        run: |
+        git show -s --format=%B "${{ github.event.inputs.gitCommit }}"
