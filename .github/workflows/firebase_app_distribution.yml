@@ -21,7 +21,6 @@ jobs:
 
       - name: Print log
         run: |
-          git log --oneline | cat
           commit=${{ github.event.inputs.gitCommit }}
           commit_title=$(git show -s --format=%B $commit)
           echo $commit_title
