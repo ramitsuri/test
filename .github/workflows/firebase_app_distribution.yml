@@ -19,6 +19,6 @@ jobs:
 
       - name: Print log
         run: |
-          commit="${{ github.event.inputs.gitCommit }}"
+          commit=${{ github.event.inputs.gitCommit }}
           git show -s --format=%B $commit
           git checkout $commit
