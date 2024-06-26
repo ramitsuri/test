@@ -25,3 +25,7 @@ jobs:
           commit=${{ github.event.inputs.gitCommit }}
           git show -s --format=%B $commit
           git checkout $commit
+
+      - name: Print log next step
+        run: |
+          git log
