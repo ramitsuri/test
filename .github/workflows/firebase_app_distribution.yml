@@ -23,9 +23,6 @@ jobs:
         run: |
           git log --oneline | cat
           commit=${{ github.event.inputs.gitCommit }}
-          git show -s --format=%B $commit
+          commit_title=$(git show -s --format=%B $commit)
+          echo $commit_title
           git checkout $commit
-
-      - name: Print log next step
-        run: |
-          git log
