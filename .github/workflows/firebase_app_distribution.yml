@@ -19,7 +19,7 @@ jobs:
 
       - name: Print log
         run: |
-          git log | cat
+          git log --oneline | cat
           commit=${{ github.event.inputs.gitCommit }}
           git show -s --format=%B $commit
           git checkout $commit
