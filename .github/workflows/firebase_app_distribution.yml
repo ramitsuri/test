@@ -22,6 +22,6 @@ jobs:
       - name: Print log
         run: |
           commit=${{ github.event.inputs.gitCommit }}
-          commit_title=$(git show -s --format=%B $commit)
+          commit_title=$(git show -s --format=%s $commit)
           echo $commit_title
           git checkout $commit
