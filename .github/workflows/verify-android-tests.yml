@@ -1,0 +1,40 @@
+# This workflow is supposed to help ensure the quality of the code changes on each Pull Request.
+# It's separate from the other verification workflow so as to allow running it on MacOS as Ubuntu
+# doesn't allow nested virtualization needed by Android emulator.
+name: Verify (Android Tests)
+
+# TRIGGERS
+# As seen below, this workflow is triggered given a few events happen:
+#  1. When a Pull Request to branch `main` or `develop` is first opened;
+#  2. Whenever new changes are pushed to an existing Pull Request branch
+on:
+ workflow_run:
+  workflows: ['Verify']
+  types: [completed]
+
+# Cancel previous pipelines if there is a new pushed commit on the branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# JOBS
+# Jobs can run either in parallel or they can depend on each other. For more details, see:
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idneeds
+# Each job consists of steps. For more information, see:
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idsteps
+jobs:
+  
+  verify:
+    name: 'Run Verify Android Tests Script'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+
+      # Clone the repository (use v2 instead of v3 because of an issue where v3 checks out branch
+      # in detached HEAD state). Include submodules.
+      - name: 'Checkout code'
+        uses: actions/checkout@v4
+
+      # Run tests
+      - name: 'Tests'
+        run: ./scripts/verify-android-tests.sh
